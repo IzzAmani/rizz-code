@@ -111,7 +111,7 @@ void execute() {
     cout << "]" << endl;
  
     for (int i=0; i < tokens.size(); i++) {
-        // cout << "Debug: " << tokens.at(i) << "||" << (tokens.at(i) == "yap") <<  endl;
+        // if user want to yap
         if (tokens.at(i) == "yap") {
             cout << tokens.at(i + 1) << endl;
         }
