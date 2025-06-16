@@ -1,19 +1,30 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <cctype>
 #include <string>
 using namespace std;
 
 // function prototypes
+void getTokens();
+void execute();
 string checkType(int);
+
+vector<string> tokens;
 
 
 int main() {
+    cout << "===================== \nRIZZING IN PROGRESS: \n===================== \n";
+    getTokens();
+    execute();
+
+    return 0;
+}
+
+
+void getTokens() {
     // get the input file
     ifstream InputRizz("code.rizz");
  
-    vector<string> tokens;
     string currToken;
     char charac, prevCharac;
     bool stringStarted = false;
@@ -32,6 +43,7 @@ int main() {
             // check if a string is started
             if (checkType(charac) == "quote") {
                 stringStarted = !stringStarted;
+                continue;
             }
             // if the next character are not the same type AND it's not inside a string thingy idk
             else if ( !(checkType(prevCharac) == checkType(charac)) && !stringStarted) {
@@ -50,14 +62,6 @@ int main() {
         }
     }
 
-    cout << "Tokens: [";
-    for (string str : tokens) {
-        cout << '(' << str << ")  ";
-    }
-
-    cout << "]" << endl;
-
-    return 0;
 }
 
 
@@ -94,4 +98,22 @@ string checkType(int ascii) {
     }
 
     return "misc";
+}
+
+
+
+void execute() {
+    cout << "Tokens: [";
+    for (string str : tokens) {
+        cout << '(' << str << ")  ";
+    }
+
+    cout << "]" << endl;
+ 
+    for (int i=0; i < tokens.size(); i++) {
+        // cout << "Debug: " << tokens.at(i) << "||" << (tokens.at(i) == "yap") <<  endl;
+        if (tokens.at(i) == "yap") {
+            cout << tokens.at(i + 1) << endl;
+        }
+    }
 }
