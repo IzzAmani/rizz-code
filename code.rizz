@@ -1,4 +1,12 @@
 bet x= 69;
+bet amogus = 420;
 
-yap "Hello GAY World";
+yap "x is ";
 yap x;
+yap "\n"
+
+yap "Sussy Baka ";
+yap amogus;
+yap "\n";
+
+yap txt;

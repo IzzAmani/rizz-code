@@ -2,6 +2,7 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#include <unordered_map>
 using namespace std;
 
 // function prototypes
@@ -10,7 +11,7 @@ void execute();
 string checkType(int);
 
 vector<string> tokens;
-
+unordered_map<string, string> variables;
 
 int main() {
     cout << "===================== \nRIZZING IN PROGRESS: \n===================== \n";
@@ -43,7 +44,6 @@ void getTokens() {
             // check if a string is started
             if (checkType(charac) == "quote") {
                 stringStarted = !stringStarted;
-                continue;
             }
             // if the next character are not the same type AND it's not inside a string thingy idk
             else if ( !(checkType(prevCharac) == checkType(charac)) && !stringStarted) {
@@ -103,17 +103,41 @@ string checkType(int ascii) {
 
 
 void execute() {
-    cout << "Tokens: [";
-    for (string str : tokens) {
-        cout << '(' << str << ")  ";
-    }
-
-    cout << "]" << endl;
+    // cout << "Tokens: [";
+    // for (string str : tokens) {
+    //     cout << '(' << str << ")  ";
+    // }
+    // cout << "]" << endl;
  
+    string outStr;
+
     for (int i=0; i < tokens.size(); i++) {
         // if user want to yap
         if (tokens.at(i) == "yap") {
-            cout << tokens.at(i + 1) << endl;
+            // strip the quotation marks on opposite ends
+            outStr = tokens.at(i + 1).substr( 1, tokens.at(i+1).length()-2 );
+
+            if (outStr == "\\n") {
+                cout << endl;
+            }
+            // if the output is a string literal (better handling soon)
+            else if (tokens.at(i+1).substr(0,1) == "\"") {
+                cout << tokens.at(i + 1).substr( 1, tokens.at(i+1).length()-2 );
+            }
+            // if a variable
+            else {
+                cout << variables[tokens.at(i+1)];
+            }
+        }
+ 
+        // if user want to define variables
+        else if (tokens.at(i) == "bet") {
+            // if the +2 index isnt an equal symbol, in other words, wrong format
+            if (tokens.at(i+2) != "=") {
+                cout << "Error : Invalid Syntax" << endl;
+                return;
+            }
+            variables[tokens.at(i+1)] = tokens.at(i+3);
         }
     }
 }
